@@ -130,6 +130,7 @@ public ResponseEntity<?> getProductsBetweenPrice(
 //    }
 
 
+    //Getting all manufacturer
     @GetMapping(path = "/manufacturer/{manufacturer}")
     public ResponseEntity<?> productOfManufacturer(@PathVariable(name = "manufacturer") String manufacturer){
 
