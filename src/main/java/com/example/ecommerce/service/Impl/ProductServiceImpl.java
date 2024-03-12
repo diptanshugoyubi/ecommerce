@@ -7,20 +7,24 @@ import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.service.ProductService;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    //VARIABLES
     ProductRepository productRepository;
+
+    //CONSTRUCTER
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
 
+    //
+    //
+    //
     // METHOD -> SAVES A NEW PRODUCT TO THE DB.
     @Override
     public Product createProduct(Product product) {
@@ -30,7 +34,9 @@ public class ProductServiceImpl implements ProductService {
         return savedProduct;
     }
 
-
+    //
+    //
+    //
     // METHOD -> GETS A  PRODUCT TO THE DB USING ID.
     @Override
     public Product getAProduct(Long id) {
@@ -39,16 +45,19 @@ public class ProductServiceImpl implements ProductService {
         try{
             Product product = productRepository
                     .findById(id)
-                    .orElseThrow(()->new RuntimeException("There is no Product"));
+                    .orElseThrow(()->new RuntimeException("There is not Product with Id : " + id));
 
             return product;
 
         }catch (Exception e){
-            return new Product();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
 
+    //
+    //
+    //
     // METHOD -> GETS All PRODUCTS FROM THE DB.
     @Override
     public List<Product> getProducts() {
@@ -57,7 +66,9 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
-
+    //
+    //
+    //
     //METHOD -> UPDATE A PRODUCT
     @Override
     public Product updateAProduct(Long id, Product product) {
@@ -67,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
         try{
             Product productDetails = productRepository
                     .findById(id)
-                    .orElseThrow(()->new RuntimeException("There is no Product"));
+                    .orElseThrow(()->new RuntimeException("There is not Product with Id : " + id));
 
 
             //updating the product details-----------
@@ -82,39 +93,74 @@ public class ProductServiceImpl implements ProductService {
             return updatedProduct;
 
         }catch (Exception e){
-            return new Product();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
+
+    //
+    //
+    //
+    // METHOD TO DELETE A PRODUCT
     @Override
     public void deleteAProduct(Long id) {
 
-        Product product = productRepository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("There is no Product with the id: " + id));
+        try{
+            Product product = productRepository
+                    .findById(id)
+                    .orElseThrow(() -> new RuntimeException("There is no Product with the id: " + id));
 
-        productRepository.deleteById(id);
+            productRepository.deleteById(id);
+
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
 
+    //
+    //
+    //
+    // METHOD TO GET ALL PRODUCT WHOSE PRICE ARE GREATER THAN CERTAIN AMOUNT
     @Override
     public List<Product> getProductGreaterThanPrice(double price) {
-//        try{
-//
-//        }catch (Exception e){
-//            System.out.println(e.getMessage());
-//            return
-//        }
-        return productRepository.getProductGreaterThanPrice(price);
+        try{
+            return productRepository.getProductGreaterThanPrice(price);
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
+
+    //
+    //
+    //
+    // METHOD TO GET ALL PRODUCT WHICH IS MANUFACTURED BY A CERTAIN MANUFACTURER
     @Override
     public List<Product> getProductOfManufacturer(String manufacturer) {
-        return productRepository.getProductOfManufacturer(manufacturer);
+        try{
+            return productRepository.getProductOfManufacturer(manufacturer);
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
+
+    //
+    //
+    //
+    // METHOD TO GET ALL PRODUCT WHOSE PRICE ARE BETWEEN TWO RANGE
     @Override
     public List<Product> getProductsBetweenPrice(double minPrice, double maxPrice) {
-        return productRepository.getProductBetweenPrice(minPrice, maxPrice);
+        try{
+            return productRepository.getProductBetweenPrice(minPrice, maxPrice);
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
+
+
+    //END BRACKET
 }

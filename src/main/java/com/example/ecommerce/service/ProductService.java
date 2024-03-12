@@ -21,4 +21,6 @@ public interface ProductService {
     List<Product> getProductOfManufacturer(String manufacturer);
 
     List<Product> getProductsBetweenPrice(double minPrice,double maxPrice);
+
+
 }
